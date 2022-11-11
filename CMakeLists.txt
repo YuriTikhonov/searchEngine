@@ -7,6 +7,6 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(nlohmann_json)
 
-add_executable(searchEngine main.cpp)
+add_executable(searchEngine main.cpp converter.h)
 
 target_link_libraries(searchEngine PRIVATE nlohmann_json::nlohmann_json)
