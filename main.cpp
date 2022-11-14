@@ -89,10 +89,9 @@ int main() {
         return 0;
     }
 
-    for(int i = 0;i < textDocument.size();++i)
-    {
-        std::cout << textDocument[i] << std::endl;
-    }
+
+        std::cout  << textDocument.size() << " docs are loaded" << std::endl;
+
     std::cout << "Good luck with your project!";
     delete converter;
     return 0;

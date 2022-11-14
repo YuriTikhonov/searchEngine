@@ -6,14 +6,12 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
-#include <regex>
 #include <nlohmann/json.hpp>
 
 
 class ConverterJSON {
     std::vector<std::string>startId;
-   // std::vector<std::string>textDocuments;
-public:
+  public:
     ConverterJSON() = default;
 
      std::vector<std::string>startApp()
@@ -46,7 +44,7 @@ public:
  */
     std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
         {
-            auto recursiveGetFileNamesByExtension =
+            auto recursiveGetFilePathsByExtension =
                     [&textDocuments](std::filesystem::path path,
                        const std::string extension)
                     {
@@ -56,19 +54,21 @@ public:
                             {
                                 if(p.path().extension().compare(extension))
                                 {
-                                    std::ifstream file(p.path());
-                                    if(!file.is_open())
+                                   std::ifstream file(p.path(), std::ios::in | std::ios::binary);
+
+                                   if(!file.is_open())
                                     {
                                         throw std::range_error("source file is missing");
                                     }
-                                    std::string content;
-                                    file >> content;
-                                    textDocuments.push_back(content);
+                                   const auto sz = std::filesystem::file_size(p.path());
+                                   std::string content(sz, '\0');
+                                   file.read(content.data(), sz);
+                                   textDocuments.push_back(content);
                                 }
                             }
                         }
                     };
-            recursiveGetFileNamesByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\cmake-build-debug\\resources","txt");
+            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\cmake-build-debug\\resources","txt");
             return textDocuments;
         };
 /*
