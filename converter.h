@@ -96,7 +96,16 @@ class ConverterJSON {
 * Положить в файл answers.json результаты поисковых запросов
 */
     void putAnswers(std::vector<std::vector<std::pair<int, float>>>
-    answers);
+    answers)
+    {
+        std::ifstream file("answers.json");
+        if(!file.is_open())
+        {
+            std::ofstream createFile("answers.json");
+        }else{
+            file.clear();
+        }
+    }
 };
 
 

@@ -3,6 +3,7 @@
 
 int main() {
     std::vector<std::string>textDocumentsPaths;
+    std::vector<std::vector<std::pair<int, float>>>answersVector;
     /*
     std::ofstream file("config.json");
     nlohmann::json temp = {
@@ -96,6 +97,7 @@ int main() {
     {
         std::cout << requestedWords[i] << std::endl;
     }
+    converter->putAnswers(answersVector);
     std::cout << "Good luck with your project!";
     delete converter;
     return 0;
