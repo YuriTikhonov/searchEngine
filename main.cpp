@@ -69,17 +69,17 @@ int main() {
 
     std::vector<std::string>startCheck;
     std::vector<std::string>textDocument;
+    std::vector<std::string>requestedWords;
 
     try {
         startCheck = converter->startApp();
     }
-
     catch (std::exception& x) {
             std::cout << x.what() <<  std::endl;
             return 0;
         }
     std::cout  << startCheck[1] << " " << startCheck[2]  <<  " is started" << std::endl;
-    //
+
     try
     {
         textDocument = converter->GetTextDocuments(textDocument);
@@ -89,9 +89,13 @@ int main() {
         return 0;
     }
 
-
-        std::cout  << textDocument.size() << " docs are loaded" << std::endl;
-
+    int responsesLimit = converter->GetResponsesLimit();
+    std::cout  << textDocument.size() << " docs are loaded, responses limit is: " << responsesLimit << std::endl;
+    requestedWords = converter->GetRequests();
+    for(int i = 0;i < requestedWords.size();++i)
+    {
+        std::cout << requestedWords[i] << std::endl;
+    }
     std::cout << "Good luck with your project!";
     delete converter;
     return 0;

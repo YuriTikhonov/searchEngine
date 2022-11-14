@@ -8,9 +8,10 @@
 #include <filesystem>
 #include <nlohmann/json.hpp>
 
-
 class ConverterJSON {
     std::vector<std::string>startId;
+    std::vector<std::string>requests;
+    int responsesLimit;
   public:
     ConverterJSON() = default;
 
@@ -28,21 +29,15 @@ class ConverterJSON {
         std::string  appConfig = it.key();
         std::string appName = startControl.at("config").at(1);
         std::string versionNumber = startControl.at("config").at(3);
-
+        responsesLimit = startControl.at("config").at(5);
         startId.push_back(appConfig);
         startId.push_back(appName);
         startId.push_back(versionNumber);
-
         file.close();
         return startId;
      }
 
-        /*
- * Метод получения содержимого файлов
- * @return Возвращает список с содержимым файлов перечисленных
- * в config.json
- */
-    std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
+     std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
         {
             auto recursiveGetFilePathsByExtension =
                     [&textDocuments](std::filesystem::path path,
@@ -71,17 +66,32 @@ class ConverterJSON {
             recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\cmake-build-debug\\resources","txt");
             return textDocuments;
         };
-/*
-* Метод считывает поле max_responses для определения предельного
-* количества ответов на один запрос
-* @return
-*/
-    int GetResponsesLimit();
-/*
-* Метод получения запросов из файла requests.json
-* @return возвращает список запросов из файла requests.json
-*/
-    std::vector<std::string> GetRequests();
+
+    int GetResponsesLimit()
+    {
+        return responsesLimit;
+    }
+
+    std::vector<std::string> GetRequests()
+    {
+        std::ifstream file("request.json");
+        if(!file.is_open())
+        {
+            throw std::range_error("request file is missing");
+        }
+        nlohmann::json requestFileOperation;
+        file >> requestFileOperation;
+
+        for (auto it = requestFileOperation.begin(); it != requestFileOperation.end(); ++it)
+        {
+            for(auto valueIterator = it.value().begin();valueIterator != it.value().end(); ++valueIterator)
+            {
+                requests.push_back(*valueIterator);
+            }
+        }
+        file.close();
+        return requests;
+    }
 /*
 * Положить в файл answers.json результаты поисковых запросов
 */
