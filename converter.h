@@ -5,53 +5,32 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
+#include <filesystem>
+#include <regex>
 #include <nlohmann/json.hpp>
-//template to fill config
-/*  std::ofstream file("..//config.json");
-  nlohmann::json temp = {
-          {"config", {
-              "name", "SearchEngine",
-                      "version", "0.1",
-                      "max_responses", 5
-          }},
-          { "files", {
-          "../resources/file001.txt",
-          "../resources/file002.txt",
-          "../resources/file003.txt",
-           "../resources/file004.txt"
-
-          }}
-  };
-  file << temp;
-  file.close();*/
-//
 
 
 class ConverterJSON {
+    std::vector<std::string>startId;
+   // std::vector<std::string>textDocuments;
 public:
     ConverterJSON() = default;
 
-    static std::vector<std::string>Starting()
+     std::vector<std::string>startApp()
      {
         std::ifstream file("config.json");
          if(!file.is_open())
          {
              throw std::range_error("config file is missing");
-
          }
         nlohmann::json startControl;
-        std::vector<std::string>startId;
-
-            file >> startControl;
+        file >> startControl;
 
         auto it = startControl.begin();
         std::string  appConfig = it.key();
         std::string appName = startControl.at("config").at(1);
-         if(appName == "")
-         {
-             throw std::exception();
-         }
         std::string versionNumber = startControl.at("config").at(3);
+
         startId.push_back(appConfig);
         startId.push_back(appName);
         startId.push_back(versionNumber);
@@ -65,7 +44,33 @@ public:
  * @return Возвращает список с содержимым файлов перечисленных
  * в config.json
  */
-    std::vector<std::string> GetTextDocuments();
+    std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
+        {
+            auto recursiveGetFileNamesByExtension =
+                    [&textDocuments](std::filesystem::path path,
+                       const std::string extension)
+                    {
+                        for(auto& p: std::filesystem::recursive_directory_iterator(path))
+                        {
+                            if(is_regular_file(p.path()))
+                            {
+                                if(p.path().extension().compare(extension))
+                                {
+                                    std::ifstream file(p.path());
+                                    if(!file.is_open())
+                                    {
+                                        throw std::range_error("source file is missing");
+                                    }
+                                    std::string content;
+                                    file >> content;
+                                    textDocuments.push_back(content);
+                                }
+                            }
+                        }
+                    };
+            recursiveGetFileNamesByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\cmake-build-debug\\resources","txt");
+            return textDocuments;
+        };
 /*
 * Метод считывает поле max_responses для определения предельного
 * количества ответов на один запрос
