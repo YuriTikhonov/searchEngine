@@ -1,8 +1,8 @@
-#include "converter.h"
-TEST(sample_test_case, sample_test)
-{
-    EXPECT_EQ(1, 1);
-}
+#include "../include/converter.h"
+
+
+
+//#ifndef TEST
 
 int main() {
 
@@ -107,3 +107,4 @@ int main() {
     delete converter;
     return 0;
 }
+//#endif // !TESTING

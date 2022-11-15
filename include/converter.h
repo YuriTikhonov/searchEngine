@@ -6,8 +6,8 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
-#include <nlohmann/json.hpp>
-#include "gtest/gtest.h"
+#include "nlohmann/json.hpp"
+
 
 
 
@@ -67,7 +67,7 @@ class ConverterJSON {
                             }
                         }
                     };
-            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\cmake-build-debug\\resources","txt");
+            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\resources","txt");
             return textDocuments;
         };
 
