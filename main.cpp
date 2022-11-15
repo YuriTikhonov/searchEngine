@@ -1,9 +1,14 @@
 #include "converter.h"
-
+TEST(sample_test_case, sample_test)
+{
+    EXPECT_EQ(1, 1);
+}
 
 int main() {
+
     std::vector<std::string>textDocumentsPaths;
     std::vector<std::vector<std::pair<int, float>>>answersVector;
+
     /*
     std::ofstream file("config.json");
     nlohmann::json temp = {
