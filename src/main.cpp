@@ -1,15 +1,12 @@
-#include "../include/converter.h"
-
-
-
-//#ifndef TEST
+#include "converterJSON.h"
 
 int main() {
 
     std::vector<std::string>textDocumentsPaths;
     std::vector<std::vector<std::pair<int, float>>>answersVector;
+    std::cout << "Hello there";
 
-    /*
+  /*
     std::ofstream file("config.json");
     nlohmann::json temp = {
             {"config", {
@@ -27,8 +24,8 @@ int main() {
     };
     file << temp;
     file.close();
-*/
-/*
+
+
      std::ofstream file("request.json");
     nlohmann::json tempRequest = {
      {
@@ -42,8 +39,8 @@ int main() {
      };
      file << tempRequest;
     file.close();
-*/
-/*
+
+
  std::ofstream file("answers.json");
     nlohmann::json tempAnswers = {
  {
@@ -71,6 +68,7 @@ int main() {
     file.close();
 */
     //--------------------------------
+
     ConverterJSON*  converter = new ConverterJSON;
 
     std::vector<std::string>startCheck;
@@ -105,6 +103,6 @@ int main() {
     converter->putAnswers(answersVector);
     std::cout << "Good luck with your project!";
     delete converter;
+
     return 0;
 }
-//#endif // !TESTING

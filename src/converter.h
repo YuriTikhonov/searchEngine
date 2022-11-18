@@ -6,10 +6,10 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
-#include "nlohmann/json.hpp"
+//#include <nlohmann/json.hpp>
 
 
-
+/*
 
 
 class ConverterJSON {
@@ -96,9 +96,9 @@ class ConverterJSON {
         file.close();
         return requests;
     }
-/*
-* Положить в файл answers.json результаты поисковых запросов
-*/
+
+
+
     void putAnswers(std::vector<std::vector<std::pair<int, float>>>
     answers)
     {
@@ -113,7 +113,7 @@ class ConverterJSON {
 };
 
 
-
+*/
 #ifndef SEARCHENGINE_CONVERTER_H
 #define SEARCHENGINE_CONVERTER_H
 
