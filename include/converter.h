@@ -6,11 +6,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
-//#include <nlohmann/json.hpp>
-
-
-/*
-
+#include "nlohmann/json.hpp"
 
 class ConverterJSON {
     std::vector<std::string>startId;
@@ -97,8 +93,6 @@ class ConverterJSON {
         return requests;
     }
 
-
-
     void putAnswers(std::vector<std::vector<std::pair<int, float>>>
     answers)
     {
@@ -112,9 +106,6 @@ class ConverterJSON {
     }
 };
 
-
-*/
 #ifndef SEARCHENGINE_CONVERTER_H
 #define SEARCHENGINE_CONVERTER_H
-
 #endif //SEARCHENGINE_CONVERTER_H

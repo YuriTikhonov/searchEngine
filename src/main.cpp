@@ -1,12 +1,10 @@
-#include "converterJSON.h"
+#include "../include/converter.h"
 
 int main() {
 
     std::vector<std::string>textDocumentsPaths;
     std::vector<std::vector<std::pair<int, float>>>answersVector;
-    std::cout << "Hello there";
-
-  /*
+    /*
     std::ofstream file("config.json");
     nlohmann::json temp = {
             {"config", {
@@ -69,7 +67,7 @@ int main() {
 */
     //--------------------------------
 
-    ConverterJSON*  converter = new ConverterJSON;
+    auto  converter = new ConverterJSON;
 
     std::vector<std::string>startCheck;
     std::vector<std::string>textDocument;
@@ -96,13 +94,13 @@ int main() {
     int responsesLimit = converter->GetResponsesLimit();
     std::cout  << textDocument.size() << " docs are loaded, responses limit is: " << responsesLimit << std::endl;
     requestedWords = converter->GetRequests();
-    for(int i = 0;i < requestedWords.size();++i)
-    {
-        std::cout << requestedWords[i] << std::endl;
-    }
+
+    for(auto at : requestedWords)
+     {
+        std::cout << at << std::endl;
+     }
     converter->putAnswers(answersVector);
     std::cout << "Good luck with your project!";
     delete converter;
-
     return 0;
 }
