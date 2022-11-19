@@ -83,5 +83,5 @@ googlemock/gtest
 /ALL_BUILD.vcxproj.filters
 /ALL_BUILD.vcxproj
 nlohmann_json/
-unit_tests/lib/
+unitTests/lib/
 
