@@ -63,7 +63,8 @@ class ConverterJSON {
                             }
                         }
                     };
-            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\FinalProject\\searchEngine\\resources","txt");
+            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\"
+                                             "FinalProject\\searchEngine\\resources","txt");
             return textDocuments;
         };
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
 
 struct Entry
 {
@@ -21,11 +22,28 @@ public:
 
     std::vector<Entry> GetWordCount(const std::string& word);
 
+    void getDocs(std::string &tempWord)
+    {
+        docs.push_back(tempWord);
+    }
+    void showDocs()
+    {
+        for(auto it :docs)
+        {
+            std::cout << it << std::endl;
+        }
+    }
+
+    void fillFreqDict()
+    {
+
+    }
+
 private:
     std::vector<std::string> docs;
     std::map<std::string, std::vector<Entry>> freqDictionary;
 };
-
+int invertIndex(std::vector<std::string> &docs);
 #ifndef SEARCHENGINE_INVERTEDINDEX_H
 #define SEARCHENGINE_INVERTEDINDEX_H
 #endif //SEARCHENGINE_INVERTEDINDEX_H
