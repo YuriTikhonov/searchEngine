@@ -28,15 +28,64 @@ public:
     }
     void showDocs()
     {
-        for(auto it :docs)
+        for(int i = 0;i < docs.size();++i)
         {
-            std::cout << it << std::endl;
+            std::cout << docs[i] << " - " << i << std::endl;
         }
     }
 
-    void fillFreqDict()
+    void fillFreqDict(std::vector<std::string> &inDocsText)
     {
+        std::vector<Entry> toEntry;
+        size_t counter = 0;
+        size_t indexCount = 0;
+        Entry entry = {counter,indexCount};
+        for(int i = 0;i < inDocsText.size();++i)
+        {
 
+            for(int j = 0;j < docs.size();++j)
+            {
+                bool entryFound = false;
+                 bool wordFound = freqDictionary.find(docs[j]) != freqDictionary.end();
+                //std::cout << counter << " ||| " << std::endl;
+               if(!wordFound)
+                {
+                    entry = {counter,1};
+                }
+                std::cout << docs[j] << " - " << i << " word found? "<< wordFound <<  std::endl;
+                toEntry.push_back(entry);
+                freqDictionary.try_emplace(docs[j],toEntry);
+
+                //std::cout  << " .... " << wordFound << std::endl;
+            }
+            counter++;
+        }
+    }
+    /*
+     * for (auto &word: words) {
+        bool entryIsFind = false;
+        bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
+
+        if (wordIsFind) {
+            if (freqDictionary[word].find(docId) != freqDictionary[word].end()) {
+                ++freqDictionary[word][docId];
+                entryIsFind = true;
+            }
+        }
+
+        if (!wordIsFind || !entryIsFind)
+            freqDictionary[word][docId] = 1;
+    }
+}
+     */
+    void printMap()
+    {int i = 0;
+        for(auto it: freqDictionary)
+        {
+            //std::cout <<it.first <<" -- " <<  it.second[i].docId << " - " << it.second[i].count << std::endl;
+
+            i++;
+        }
     }
 
 private:

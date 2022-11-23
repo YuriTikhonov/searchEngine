@@ -96,14 +96,13 @@ int main() {
     std::cout  << textDocument.size() << " docs are loaded, responses limit is: "
         << responsesLimit << std::endl;
     requestedWords = converter->GetRequests();
-    //std::cout << "Requests following:" << std::endl;
-    for(auto at : requestedWords)
+   /* for(auto at : requestedWords)
      {
-
-       // std::cout << at << std::endl;
-     }
+       std::cout << at << std::endl;
+     }*/
     converter->putAnswers(answersVector);
     invertIndex(textDocument);
+
     std::cout << "Good luck with your project!";
     delete converter;
     return 0;
