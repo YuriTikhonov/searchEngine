@@ -34,30 +34,47 @@ public:
         }
     }
 
+    void inputDataToDict(Entry &inEnty)
+    {
+
+        toEntry.push_back(inEnty);
+
+    }
+    std::vector<Entry> getEntryData()
+    {
+        return toEntry;
+    }
+
     void fillFreqDict(std::vector<std::string> &inDocsText)
     {
-        std::vector<Entry> toEntry;
+        std::vector<Entry> getEntry;
         size_t counter = 0;
-        size_t indexCount = 0;
+        size_t indexCount = 1;
         Entry entry = {counter,indexCount};
         for(int i = 0;i < inDocsText.size();++i)
         {
-
             for(int j = 0;j < docs.size();++j)
             {
                 bool entryFound = false;
                  bool wordFound = freqDictionary.find(docs[j]) != freqDictionary.end();
-                //std::cout << counter << " ||| " << std::endl;
                if(!wordFound)
                 {
-                    entry = {counter,1};
-                }
-                std::cout << docs[j] << " - " << i << " word found? "<< wordFound <<  std::endl;
-                toEntry.push_back(entry);
+                   entry = {counter,1};
+                    toEntry.push_back(entry);
+                }else if(wordFound)
+               {
+                   ++indexCount;
+                  entry = {counter,indexCount};
+                   toEntry.push_back(entry);
+               }
+
+                //std::cout << docs[j] << " - " << i << " word found? "<< wordFound <<  std::endl;
                 freqDictionary.try_emplace(docs[j],toEntry);
+                toEntry.clear();
 
                 //std::cout  << " .... " << wordFound << std::endl;
             }
+
             counter++;
         }
     }
@@ -79,18 +96,22 @@ public:
 }
      */
     void printMap()
-    {int i = 0;
+    {int k = 0;
         for(auto it: freqDictionary)
         {
-            //std::cout <<it.first <<" -- " <<  it.second[i].docId << " - " << it.second[i].count << std::endl;
+            std::cout  << it.first << " :";
+            for(auto its : it.second)
+                std::cout <<"{" << its.docId <<" - " << its.count << "}";
+            std::cout << std::endl;
+            ++k;
 
-            i++;
         }
     }
 
 private:
     std::vector<std::string> docs;
     std::map<std::string, std::vector<Entry>> freqDictionary;
+    std::vector<Entry> toEntry;
 };
 int invertIndex(std::vector<std::string> &docs);
 #ifndef SEARCHENGINE_INVERTEDINDEX_H
