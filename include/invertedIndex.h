@@ -51,50 +51,39 @@ public:
         size_t counter = 0;
         size_t indexCount = 1;
         Entry entry = {counter,indexCount};
-        for(int i = 0;i < inDocsText.size();++i)
+        for(size_t i = 0;i < inDocsText.size();++i)
         {
             for(int j = 0;j < docs.size();++j)
             {
                 bool entryFound = false;
                  bool wordFound = freqDictionary.find(docs[j]) != freqDictionary.end();
-               if(!wordFound)
+              /*if(!wordFound)
                 {
-                   entry = {counter,1};
-                    toEntry.push_back(entry);
-                }else if(wordFound)
+
+                    auto iterator = toEntry.insert(toEntry.begin(), {i,1});
+
+                }
+                else */
+                    if(wordFound)
                {
                    ++indexCount;
-                  entry = {counter,indexCount};
-                   toEntry.push_back(entry);
-               }
 
-                //std::cout << docs[j] << " - " << i << " word found? "<< wordFound <<  std::endl;
-                freqDictionary.try_emplace(docs[j],toEntry);
-                toEntry.clear();
+                   toEntry.push_back({i,indexCount});
+               }
+                freqDictionary.try_emplace(docs[i],toEntry);
+                std::cout << docs[j] << " - " << i << " word found? "<< wordFound <<  std::endl;
 
                 //std::cout  << " .... " << wordFound << std::endl;
             }
 
+
             counter++;
         }
-    }
-    /*
-     * for (auto &word: words) {
-        bool entryIsFind = false;
-        bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
+        ;
+        //toEntry.clear();
 
-        if (wordIsFind) {
-            if (freqDictionary[word].find(docId) != freqDictionary[word].end()) {
-                ++freqDictionary[word][docId];
-                entryIsFind = true;
-            }
-        }
-
-        if (!wordIsFind || !entryIsFind)
-            freqDictionary[word][docId] = 1;
     }
-}
-     */
+
     void printMap()
     {int k = 0;
         for(auto it: freqDictionary)
