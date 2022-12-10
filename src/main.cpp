@@ -1,10 +1,12 @@
 #include "../include/converter.h"
 #include "../include/invertedIndex.h"
 
+
 int main() {
 
     std::vector<std::string>textDocumentsPaths;
     std::vector<std::vector<std::pair<int, float>>>answersVector;
+
     /*
     std::ofstream file("config.json");
     nlohmann::json temp = {
@@ -78,9 +80,9 @@ int main() {
         startCheck = converter->startApp();
     }
     catch (std::exception& x) {
-            std::cout << x.what() <<  std::endl;
-            return 0;
-        }
+        std::cout << x.what() <<  std::endl;
+        return 0;
+    }
     std::cout  << startCheck[1] << " " << startCheck[2]  <<  " is started" << std::endl;
 
     try
@@ -94,14 +96,27 @@ int main() {
 
     int responsesLimit = converter->GetResponsesLimit();
     std::cout  << textDocument.size() << " docs are loaded, responses limit is: "
-        << responsesLimit << std::endl;
+               << responsesLimit << std::endl;
     requestedWords = converter->GetRequests();
-   /* for(auto at : requestedWords)
-     {
-       std::cout << at << std::endl;
-     }*/
+    /* for(auto at : requestedWords)
+      {
+        std::cout << at << std::endl;
+      }*/
     converter->putAnswers(answersVector);
+
     invertIndex(textDocument);
+    /* std::vector<std::thread>threadNames;
+
+     for(int i = 0;i < textDocument.size();++i)
+     {
+         std::string s = std::to_string(i);
+         std::thread readFile(freqDictionaryAccess,textDocument[i]);
+         threadNames.push_back(readFile) ;
+     }
+     for(auto it : threadNames)
+     {
+         std::thread it(freqDictionaryAccess,textDocument[it]);
+     }*/
 
     std::cout << "Good luck with your project!";
     delete converter;
