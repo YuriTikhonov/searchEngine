@@ -41,7 +41,7 @@ public:
         return lowerWord;
     }
 
-    void UpdateDocumentBase(std::vector<std::string> inputDocs);
+    // void UpdateDocumentBase(std::vector<std::string> inputDocs);
 
     std::vector<Entry> GetWordCount(const std::string& word, size_t &n)
     {
@@ -84,7 +84,7 @@ private:
     std::map<std::string, std::vector<Entry>> freqDictionary;
 };
 
-int invertIndex(std::vector<std::string> &docs);
+void UpdateDocumentBase( std::vector<std::string> &docs);
 #ifndef SEARCHENGINE_INVERTEDINDEX_H
 #define SEARCHENGINE_INVERTEDINDEX_H
 #endif //SEARCHENGINE_INVERTEDINDEX_H

@@ -1,76 +1,15 @@
 #include "../include/converter.h"
 #include "../include/invertedIndex.h"
-
+#include "../include/searchServer.h"
+#include <unordered_set>
 
 int main() {
-
-    std::vector<std::string>textDocumentsPaths;
+    std::string searchRequest;
+    std::vector<std::string> searchRequests;
     std::vector<std::vector<std::pair<int, float>>>answersVector;
-
-    /*
-    std::ofstream file("config.json");
-    nlohmann::json temp = {
-            {"config", {
-                               "name", "SearchEngine",
-                               "version", "0.1",
-                               "maxResponses", 5
-                       }},
-            { "files", {
-                               "../resources/file001.txt",
-                                       "../resources/file002.txt",
-                               "../resources/file003.txt",
-                                          "../resources/file004.txt"
-
-                       }}
-    };
-    file << temp;
-    file.close();
-
-
-     std::ofstream file("request.json");
-    nlohmann::json tempRequest = {
-     {
-"requests", {
-             "some words..",
-             "some words..",
-             "some words..",
-             "some words.."
-     }
-}
-     };
-     file << tempRequest;
-    file.close();
-
-
- std::ofstream file("answers.json");
-    nlohmann::json tempAnswers = {
- {
-"answers", {
-"request001", {
-"result", "true",
-"relevance", {
-"docid", 0, "rank", 0.989,
-"docid", 1, "rank" , 0.897,
-"docid", 2, "rank" , 0.750,
-"docid", 3, "rank" , 0.670,
-"docid", 4, "rank" , 0.561
-}
-},
-"request002", {
-"result", "true",
-"docid", 0, "rank" , 0.769
-},
-"request003", {
-"result", "false"}
-}
-}
-};
- file << tempAnswers;
-    file.close();
-*/
-    //--------------------------------
-
     auto  converter = new ConverterJSON;
+    auto invIndex = new InvertedIndex;
+    auto searchServer = new SearchServer;
 
     std::vector<std::string>startCheck;
     std::vector<std::string>textDocument;
@@ -97,28 +36,33 @@ int main() {
     int responsesLimit = converter->GetResponsesLimit();
     std::cout  << textDocument.size() << " docs are loaded, responses limit is: "
                << responsesLimit << std::endl;
-    requestedWords = converter->GetRequests();
-    /* for(auto at : requestedWords)
-      {
-        std::cout << at << std::endl;
-      }*/
+
     converter->putAnswers(answersVector);
 
-    invertIndex(textDocument);
-    /* std::vector<std::thread>threadNames;
+    UpdateDocumentBase(textDocument);
+    int j = 0;
+    while (searchRequest != "-1")
+    {
+        std::cout << "Enter search request or -1 to exit: " << std::endl;
+        std::getline(std::cin, searchRequest);
+        if(searchRequest != "-1")
+            searchRequests.push_back(searchRequest);
+        ++j;
+    }
+    std::ofstream file("request.json");
+    nlohmann::json tempRequest = {"requests:",searchRequests};
+    file << tempRequest;
+    file.close();
 
-     for(int i = 0;i < textDocument.size();++i)
-     {
-         std::string s = std::to_string(i);
-         std::thread readFile(freqDictionaryAccess,textDocument[i]);
-         threadNames.push_back(readFile) ;
-     }
-     for(auto it : threadNames)
-     {
-         std::thread it(freqDictionaryAccess,textDocument[it]);
-     }*/
+    requestedWords = converter->GetRequests();
+    for(auto at : requestedWords)
+    {
+        searchServer->search(at);
+    }
 
     std::cout << "Good luck with your project!";
     delete converter;
+    delete invIndex;
+    delete searchServer;
     return 0;
 }

@@ -8,7 +8,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(nlohmann_json)
 
-set(SOURCE_FILES src/main.cpp include/converter.h include/invertedIndex.h src/invertedIndex.cpp)
+set(SOURCE_FILES src/main.cpp include/converter.h include/invertedIndex.h src/invertedIndex.cpp include/update.h include/searchServer.h)
 
 add_executable(SearchEngineRun ${SOURCE_FILES} include/converter.h)
 

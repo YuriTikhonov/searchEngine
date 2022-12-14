@@ -3,7 +3,6 @@
 
 std::mutex freqDictionaryAccess;
 
-
 std::vector<Entry>  tempEntry{};
 
 InvertedIndex* invertedIndex = new InvertedIndex;
@@ -46,7 +45,7 @@ void textOperation(const std::string &inText, size_t n)
     }
 }
 
-int invertIndex(std::vector<std::string> &inTextDocs)
+void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
 {
     unsigned int hardWareConcurrency = std::thread::hardware_concurrency();
     unsigned int threadNumbers = (inTextDocs.size() > hardWareConcurrency) ?  hardWareConcurrency: inTextDocs.size();
@@ -70,17 +69,12 @@ int invertIndex(std::vector<std::string> &inTextDocs)
         start += blockSize;
 
     }
-
     for(unsigned int j = start;j < inTextDocs.size();++j)
     {
         if(!threads[threadNumbers - 1].joinable())
             threads[threadNumbers - 1] = std::thread(textOperation, inTextDocs[j],j);
         threads[threadNumbers - 1].join();
     }
-
-
     invertedIndex->printMap();
-
     delete invertedIndex;
-    return 0;
 }

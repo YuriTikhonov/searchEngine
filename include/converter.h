@@ -12,16 +12,16 @@ class ConverterJSON {
     std::vector<std::string>startId;
     std::vector<std::string>requests;
     int responsesLimit;
-  public:
+public:
     ConverterJSON() = default;
 
-     std::vector<std::string>startApp()
-     {
+    std::vector<std::string>startApp()
+    {
         std::ifstream file("config.json");
-         if(!file.is_open())
-         {
-             throw std::range_error("config file is missing");
-         }
+        if(!file.is_open())
+        {
+            throw std::range_error("config file is missing");
+        }
         nlohmann::json startControl;
         file >> startControl;
 
@@ -35,38 +35,38 @@ class ConverterJSON {
         startId.push_back(versionNumber);
         file.close();
         return startId;
-     }
+    }
 
-     std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
-        {
-            auto recursiveGetFilePathsByExtension =
-                    [&textDocuments](std::filesystem::path path,
-                       const std::string extension)
+    std::vector<std::string> GetTextDocuments(std::vector<std::string> &textDocuments)
+    {
+        auto recursiveGetFilePathsByExtension =
+                [&textDocuments](std::filesystem::path path,
+                                 const std::string extension)
+                {
+                    for(auto& p: std::filesystem::recursive_directory_iterator(path))
                     {
-                        for(auto& p: std::filesystem::recursive_directory_iterator(path))
+                        if(is_regular_file(p.path()))
                         {
-                            if(is_regular_file(p.path()))
+                            if(p.path().extension().compare(extension))
                             {
-                                if(p.path().extension().compare(extension))
-                                {
-                                   std::ifstream file(p.path(), std::ios::in | std::ios::binary);
+                                std::ifstream file(p.path(), std::ios::in | std::ios::binary);
 
-                                   if(!file.is_open())
-                                    {
-                                        throw std::range_error("source file is missing");
-                                    }
-                                   const auto sz = std::filesystem::file_size(p.path());
-                                   std::string content(sz, '\0');
-                                   file.read(content.data(), sz);
-                                   textDocuments.push_back(content);
+                                if(!file.is_open())
+                                {
+                                    throw std::range_error("source file is missing");
                                 }
+                                const auto sz = std::filesystem::file_size(p.path());
+                                std::string content(sz, '\0');
+                                file.read(content.data(), sz);
+                                textDocuments.push_back(content);
                             }
                         }
-                    };
-            recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\"
-                                             "FinalProject\\searchEngine\\resources","txt");
-            return textDocuments;
-        };
+                    }
+                };
+        recursiveGetFilePathsByExtension("C:\\Users\\user\\CLionProjects\\"
+                                         "FinalProject\\searchEngine\\resources","txt");
+        return textDocuments;
+    };
 
     int GetResponsesLimit()
     {
@@ -95,7 +95,7 @@ class ConverterJSON {
     }
 
     void putAnswers(std::vector<std::vector<std::pair<int, float>>>
-    answers)
+                    answers)
     {
         std::ifstream file("answers.json");
         if(!file.is_open())
