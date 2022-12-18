@@ -1,5 +1,6 @@
 #include "../include/invertedIndex.h"
 #include "../include/converter.h"
+#include "../include/searchServer.h"
 
 std::mutex freqDictionaryAccess;
 
@@ -75,6 +76,12 @@ void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
             threads[threadNumbers - 1] = std::thread(textOperation, inTextDocs[j],j);
         threads[threadNumbers - 1].join();
     }
-    invertedIndex->printMap();
+    SearchServer* searchServer = new SearchServer;
+    auto dict = invertedIndex->getFreqDictionary();
+    searchServer->printMapSs(dict);
+
+
+    //invertedIndex->printMap();
     delete invertedIndex;
+    delete searchServer;
 }

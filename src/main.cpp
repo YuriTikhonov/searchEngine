@@ -11,6 +11,34 @@ int main() {
     auto invIndex = new InvertedIndex;
     auto searchServer = new SearchServer;
 
+
+/* std::ofstream file_a("answers.json");
+    nlohmann::json tempAnswers = {
+ {
+"answers", {
+"request001", {
+"result", "true",
+"relevance", {
+"docid", 0, "rank", 0.989,
+"docid", 1, "rank" , 0.897,
+"docid", 2, "rank" , 0.750,
+"docid", 3, "rank" , 0.670,
+"docid", 4, "rank" , 0.561
+}
+},
+"request002", {
+"result", "true",
+"docid", 0, "rank" , 0.769
+},
+"request003", {
+"result", "false"}
+}
+}
+};
+ file_a << tempAnswers;
+    file_a.close();
+
+*/
     std::vector<std::string>startCheck;
     std::vector<std::string>textDocument;
     std::vector<std::string>requestedWords;
@@ -50,14 +78,17 @@ int main() {
         ++j;
     }
     std::ofstream file("request.json");
-    nlohmann::json tempRequest = {"requests:",searchRequests};
+    nlohmann::json tempRequest = {"requests",searchRequests};
     file << tempRequest;
     file.close();
 
     requestedWords = converter->GetRequests();
+    unsigned int request_id = 0;
     for(auto at : requestedWords)
     {
-        searchServer->search(at);
+        searchServer->search(at,request_id);
+        //std::cout << "this is requested word: " << at << " " << request_id << std::endl;
+        request_id++;
     }
 
     std::cout << "Good luck with your project!";

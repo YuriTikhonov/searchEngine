@@ -43,7 +43,8 @@ public:
 
     // void UpdateDocumentBase(std::vector<std::string> inputDocs);
 
-    std::vector<Entry> GetWordCount(const std::string& word, size_t &n)
+    //std::vector<Entry> GetWordCount(const std::string& word, size_t &n)
+    std::vector<Entry> GetWordCount( std::string& word, size_t &n)
     {
         if(freqDictionary.count(word)) {
             for (size_t i = 0; i < freqDictionary.at(word).size(); ++i) {
@@ -59,7 +60,8 @@ public:
         }
     }
 
-    void fillFreqDict(std::vector<Entry> &inEntry, bool wordFound, const std::string &currentWord)
+    //void fillFreqDict(std::vector<Entry> &inEntry, bool wordFound, const std::string &currentWord)
+    void fillFreqDict(std::vector<Entry> &inEntry, bool wordFound,  std::string &currentWord)
     {
         if(!wordFound && !currentWord.empty() && currentWord != "\r")
         {
@@ -69,6 +71,10 @@ public:
             freqDictionary.at(currentWord) = inEntry;
         }
     }
+    std::map<std::string, std::vector<Entry>> getFreqDictionary()
+            {
+                return freqDictionary;
+            };
 
     void printMap()
     {
@@ -80,6 +86,8 @@ public:
             std::cout << std::endl;
         }
     }
+
+
 private:
     std::map<std::string, std::vector<Entry>> freqDictionary;
 };

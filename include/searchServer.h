@@ -17,7 +17,19 @@ InvertedIndex,
 * чтобы SearchServer мог узнать частоту слов встречаемых в
 запросе
 */
-    //SearchServer(InvertedIndex& idx) : _index(idx){ };
+    std::map<std::string, std::vector<Entry>> inFreqDict;
+   InvertedIndex* idxSearch = new InvertedIndex;
+   void printMapSs(std::map<std::string, std::vector<Entry>>& dict)
+            {
+                    for(auto it: dict)
+                {
+                    std::cout  << it.first << " :";
+                    for(auto its : it.second)
+                        std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                    std::cout << std::endl;
+                }
+            }
+
 /**
 * Метод обработки поисковых запросов
 * @param queries_input поисковые запросы взятые из файла
@@ -25,19 +37,37 @@ requests.json
 * @return возвращает отсортированный список релевантных ответов для
 заданных запросов
 */
-    std::vector<std::vector<RelativeIndex>> search(const std::string& queries_input)
+    int requestNumber = 0;
+    std::vector<std::vector<RelativeIndex>> search(const std::string& queries_input, unsigned int inRequestId)
     {
         std::vector<std::vector<RelativeIndex>> relativeIndex;
-        //std::cout << queries_input  << " received from searchServer" <<  std::endl;
         std::unordered_set<std::string>st;
-        std::vector<std::string>uniqueQueriesWords;
         std::istringstream inStream(queries_input);
-        while (inStream) {
-            std::string tempWord;
-            inStream >> tempWord;
-            st.insert(tempWord);
+
+        if(inRequestId != 0)
+        {
+            while (inStream) {
+                std::string tempWord;
+                inStream >> tempWord;
+                st.insert(tempWord);
+            }
         }
-        uniqueQueriesWords.insert(uniqueQueriesWords.end(),st.begin(),st.end());
+         inFreqDict = idxSearch-> getFreqDictionary();
+
+        std::unordered_set<std::string> :: iterator itr;
+        for (itr = st.begin(); itr != st.end(); itr++)
+        {
+           std::cout << *itr << " " << requestNumber << std::endl;//список уникальных слов в каждом запросе
+           //необходимо отсортировать по По возрастанию значения поля count поля
+            //freq_dictionary.
+
+
+
+        }
+        requestNumber++;
+        std::cout << "__________________"  << std::endl;
+
+        //delete idxSearch;
         return relativeIndex;
     }
 
