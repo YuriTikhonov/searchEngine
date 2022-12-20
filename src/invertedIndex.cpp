@@ -78,7 +78,8 @@ void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
     }
     SearchServer* searchServer = new SearchServer;
     auto dict = invertedIndex->getFreqDictionary();
-    searchServer->printMapSs(dict);
+    searchServer->getReadyDict(dict);
+    //searchServer->printDictionary();//working string!!
 
 
     //invertedIndex->printMap();

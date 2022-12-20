@@ -11,32 +11,45 @@ struct RelativeIndex{
 };
 class SearchServer {
 public:
-/**
-* @param idx в конструктор класса передаётся ссылка на класс
-InvertedIndex,
-* чтобы SearchServer мог узнать частоту слов встречаемых в
-запросе
-*/
-    std::map<std::string, std::vector<Entry>> inFreqDict;
-   InvertedIndex* idxSearch = new InvertedIndex;
-   void printMapSs(std::map<std::string, std::vector<Entry>>& dict)
+   void getReadyDict(std::map<std::string, std::vector<Entry>> &dict)
             {
-                    for(auto it: dict)
+                for(auto it: dict)
                 {
-                    std::cout  << it.first << " :";
+                    std::vector<Entry>v;
+                    //std::cout  << it.first << " :";
                     for(auto its : it.second)
-                        std::cout <<"{" << its.docId <<" ," << its.count << "}";
-                    std::cout << std::endl;
+                    {
+
+                       // std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                        //std::cout << std::endl;
+                        v.push_back({its.docId,its.count});
+
+
+                    }
+                    readyDictionary.insert(std::make_pair(it.first,v));
                 }
+
             }
 
-/**
-* Метод обработки поисковых запросов
-* @param queries_input поисковые запросы взятые из файла
-requests.json
-* @return возвращает отсортированный список релевантных ответов для
-заданных запросов
-*/
+    void printDictionary()
+    {
+        for(auto it: readyDictionary)
+        {
+            std::cout  << it.first << " :";
+            for(auto its : it.second)
+            {
+
+                std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                std::cout << std::endl;
+
+            }
+        }
+    }
+            auto getDict()
+            {
+                return readyDictionary;
+            }
+
     int requestNumber = 0;
     std::vector<std::vector<RelativeIndex>> search(const std::string& queries_input, unsigned int inRequestId)
     {
@@ -52,27 +65,55 @@ requests.json
                 st.insert(tempWord);
             }
         }
-         inFreqDict = idxSearch-> getFreqDictionary();
+        //----------------------------------
+         for(auto it: readyDictionary)
+           {
+               std::cout  << it.first << " :";
+                   for(auto its : it.second)
+                   {
+
+                       std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                       std::cout << std::endl;
+
+                   }
+
+
+
+
+
+           }
+        //-----------------------------------
 
         std::unordered_set<std::string> :: iterator itr;
         for (itr = st.begin(); itr != st.end(); itr++)
         {
-           std::cout << *itr << " " << requestNumber << std::endl;//список уникальных слов в каждом запросе
-           //необходимо отсортировать по По возрастанию значения поля count поля
-            //freq_dictionary.
+           std::cout << *itr << " " << requestNumber << std::endl;
+           /* for(auto it: freqDictionarySs)
+            {
+                //if(*itr == it.first)
+                //{
+                    for(auto its : it.second)
+                    {
+                        std::cout  << it.first << " :";
+                        std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                        std::cout << std::endl;
+
+                    }
+
+               // }
 
 
 
+            }*/
         }
         requestNumber++;
         std::cout << "__________________"  << std::endl;
 
-        //delete idxSearch;
         return relativeIndex;
     }
 
 private:
-    InvertedIndex _index;
+    std::map<std::string, std::vector<Entry>> readyDictionary;
 };
 
 #ifndef SEARCHENGINE_SEARCHSERVER_H

@@ -2,8 +2,8 @@
 
 int search()
 {
-    /*SearchServer* searchServer = new SearchServer;
-    searchServer->printMap();
+    SearchServer* searchServer = new SearchServer;
+    //searchServer->printDictionary();
 
-    delete searchServer;*/
+    delete searchServer;
 }

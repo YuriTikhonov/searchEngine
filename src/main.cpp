@@ -86,9 +86,9 @@ int main() {
     unsigned int request_id = 0;
     for(auto at : requestedWords)
     {
-        searchServer->search(at,request_id);
         //std::cout << "this is requested word: " << at << " " << request_id << std::endl;
-        request_id++;
+            searchServer->search(at,request_id);
+       request_id++;
     }
 
     std::cout << "Good luck with your project!";
