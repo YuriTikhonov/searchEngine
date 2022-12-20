@@ -1,6 +1,6 @@
 #include "../include/searchServer.h"
 
-int search()
+int searchMain()
 {
     SearchServer* searchServer = new SearchServer;
     //searchServer->printDictionary();

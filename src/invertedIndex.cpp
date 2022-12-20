@@ -80,9 +80,21 @@ void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
     auto dict = invertedIndex->getFreqDictionary();
     searchServer->getReadyDict(dict);
     //searchServer->printDictionary();//working string!!
-
+//-------------------------------------------
+    std::vector<std::string>requestedWords;
+    ConverterJSON* converterJson = new ConverterJSON;
+    requestedWords = converterJson->GetRequests();
+    unsigned int request_id = 0;
+    for(auto at : requestedWords)
+    {
+        //std::cout << "this is requested word: " << at << " " << request_id << std::endl;
+        searchServer->search(at,request_id);
+        request_id++;
+    }
+//---------------------------------------------
 
     //invertedIndex->printMap();
+    delete converterJson;
     delete invertedIndex;
     delete searchServer;
 }

@@ -41,7 +41,7 @@ int main() {
 */
     std::vector<std::string>startCheck;
     std::vector<std::string>textDocument;
-    std::vector<std::string>requestedWords;
+    //std::vector<std::string>requestedWords;
 
     try {
         startCheck = converter->startApp();
@@ -82,7 +82,7 @@ int main() {
     file << tempRequest;
     file.close();
 
-    requestedWords = converter->GetRequests();
+   /* requestedWords = converter->GetRequests();
     unsigned int request_id = 0;
     for(auto at : requestedWords)
     {
@@ -90,7 +90,7 @@ int main() {
             searchServer->search(at,request_id);
        request_id++;
     }
-
+*/
     std::cout << "Good luck with your project!";
     delete converter;
     delete invIndex;

@@ -16,21 +16,15 @@ public:
                 for(auto it: dict)
                 {
                     std::vector<Entry>v;
-                    //std::cout  << it.first << " :";
                     for(auto its : it.second)
                     {
-
-                       // std::cout <<"{" << its.docId <<" ," << its.count << "}";
-                        //std::cout << std::endl;
                         v.push_back({its.docId,its.count});
-
-
                     }
                     readyDictionary.insert(std::make_pair(it.first,v));
                 }
 
             }
-
+/*
     void printDictionary()
     {
         for(auto it: readyDictionary)
@@ -39,17 +33,13 @@ public:
             for(auto its : it.second)
             {
 
-                std::cout <<"{" << its.docId <<" ," << its.count << "}";
+                std::cout <<"{" << its.docId <<" :" << its.count << "}";
                 std::cout << std::endl;
 
             }
         }
     }
-            auto getDict()
-            {
-                return readyDictionary;
-            }
-
+*/
     int requestNumber = 0;
     std::vector<std::vector<RelativeIndex>> search(const std::string& queries_input, unsigned int inRequestId)
     {
@@ -65,46 +55,23 @@ public:
                 st.insert(tempWord);
             }
         }
-        //----------------------------------
-         for(auto it: readyDictionary)
-           {
-               std::cout  << it.first << " :";
-                   for(auto its : it.second)
-                   {
-
-                       std::cout <<"{" << its.docId <<" ," << its.count << "}";
-                       std::cout << std::endl;
-
-                   }
-
-
-
-
-
-           }
-        //-----------------------------------
 
         std::unordered_set<std::string> :: iterator itr;
         for (itr = st.begin(); itr != st.end(); itr++)
         {
            std::cout << *itr << " " << requestNumber << std::endl;
-           /* for(auto it: freqDictionarySs)
+            for(auto it: readyDictionary)
             {
-                //if(*itr == it.first)
-                //{
+                if(*itr == it.first)
+                {
                     for(auto its : it.second)
                     {
                         std::cout  << it.first << " :";
                         std::cout <<"{" << its.docId <<" ," << its.count << "}";
                         std::cout << std::endl;
-
                     }
-
-               // }
-
-
-
-            }*/
+               }
+            }
         }
         requestNumber++;
         std::cout << "__________________"  << std::endl;
