@@ -6,11 +6,24 @@
 int main() {
     std::string searchRequest;
     std::vector<std::string> searchRequests;
-    std::vector<std::vector<std::pair<int, float>>>answersVector;
+    //std::vector<std::vector<std::pair<int, float>>>answersVector;
     auto  converter = new ConverterJSON;
     auto invIndex = new InvertedIndex;
     auto searchServer = new SearchServer;
 
+    int j = 0;
+    while (searchRequest != "-1")
+    {
+        std::cout << "Enter search request or -1 to exit: " << std::endl;
+        std::getline(std::cin, searchRequest);
+        if(searchRequest != "-1")
+            searchRequests.push_back(searchRequest);
+        ++j;
+    }
+    std::ofstream file("request.json");
+    nlohmann::json tempRequest = {"requests",searchRequests};
+    file << tempRequest;
+    file.close();
 
 /* std::ofstream file_a("answers.json");
     nlohmann::json tempAnswers = {
@@ -65,32 +78,10 @@ int main() {
     std::cout  << textDocument.size() << " docs are loaded, responses limit is: "
                << responsesLimit << std::endl;
 
-    converter->putAnswers(answersVector);
+   // converter->putAnswers(answersVector);
 
     UpdateDocumentBase(textDocument);
-    int j = 0;
-    while (searchRequest != "-1")
-    {
-        std::cout << "Enter search request or -1 to exit: " << std::endl;
-        std::getline(std::cin, searchRequest);
-        if(searchRequest != "-1")
-            searchRequests.push_back(searchRequest);
-        ++j;
-    }
-    std::ofstream file("request.json");
-    nlohmann::json tempRequest = {"requests",searchRequests};
-    file << tempRequest;
-    file.close();
 
-   /* requestedWords = converter->GetRequests();
-    unsigned int request_id = 0;
-    for(auto at : requestedWords)
-    {
-        //std::cout << "this is requested word: " << at << " " << request_id << std::endl;
-            searchServer->search(at,request_id);
-       request_id++;
-    }
-*/
     std::cout << "Good luck with your project!";
     delete converter;
     delete invIndex;

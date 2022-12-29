@@ -94,16 +94,17 @@ public:
         return requests;
     }
 
-    void putAnswers(std::vector<std::vector<std::pair<int, float>>>
-                    answers)
-    {
+    void putAnswers(std::vector<std::vector<std::pair<int, float>>> answers) {
         std::ifstream file("answers.json");
-        if(!file.is_open())
-        {
+        if (!file.is_open()) {
             std::ofstream createFile("answers.json");
-        }else{
-            file.clear();
+
         }
+        //auto jsonAnswers= createJsonAnswer(std::move(answers));
+
+            //file << jsonAnswers;
+            file.close();
+
     }
 };
 

@@ -5,6 +5,7 @@
 std::mutex freqDictionaryAccess;
 
 std::vector<Entry>  tempEntry{};
+std::vector<std::vector<std::pair<int, float>>>answersVector;
 
 InvertedIndex* invertedIndex = new InvertedIndex;
 
@@ -79,7 +80,6 @@ void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
     SearchServer* searchServer = new SearchServer;
     auto dict = invertedIndex->getFreqDictionary();
     searchServer->getReadyDict(dict);
-    //searchServer->printDictionary();//working string!!
 //-------------------------------------------
     std::vector<std::string>requestedWords;
     ConverterJSON* converterJson = new ConverterJSON;
@@ -88,12 +88,28 @@ void UpdateDocumentBase(std::vector<std::string> &inTextDocs)
     for(auto at : requestedWords)
     {
         //std::cout << "this is requested word: " << at << " " << request_id << std::endl;
-        searchServer->search(at,request_id);
+        auto result = searchServer->search(at,request_id);
+        //searchServer->printWordFreq();
+
+        if(result.size() == 0)
+        {
+
+            /*std::ofstream file_a("answers.json");
+            nlohmann::json tempAnswers = {
+                    {
+                            "answers", {
+                            request_id, {
+                                    "result", "false"}
+                    }
+                    }
+            };
+            file_a << tempAnswers;
+            file_a.close();*/
+        }
         request_id++;
     }
+    converterJson->putAnswers(answersVector);//????????????????
 //---------------------------------------------
-
-    //invertedIndex->printMap();
     delete converterJson;
     delete invertedIndex;
     delete searchServer;
